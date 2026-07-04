@@ -23,6 +23,16 @@
               {{ form.password(class="form-control") }}
             </div>
 
+          <div class="mb-3">
+              <label class="form-label"><b>Maximum Team Size</b></label>
+              <select class="form-control" name="team_size">
+              <option value="2">2 members</option>
+              <option value="3">3 members</option>
+              <option value="4" selected>4 members</option>
+              <option value="5">5 members</option>
+            </select>
+          </div>
+            
             {{ render_extra_fields(form.extra) }}
 
             <div class="row ">
