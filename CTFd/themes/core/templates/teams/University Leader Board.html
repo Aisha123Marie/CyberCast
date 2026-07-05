@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>University Registry — Inter-University CTF 2026</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+ 
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f0f1a;
+      color: #e0e0f0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+ 
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      border-bottom: 1px solid #1e1e3a;
+    }
+ 
+    .nav-logo {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #7c6fff;
+      letter-spacing: 1px;
+    }
+ 
+    .nav-links a {
+      color: #a0a0c0;
+      text-decoration: none;
+      margin-left: 1.5rem;
+      font-size: 0.9rem;
+      transition: color 0.2s;
+    }
+ 
+    .nav-links a:hover { color: #7c6fff; }
+ 
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 900px;
+      margin: 0 auto;
+      width: 100%;
+    }
+ 
+    .page-header {
+      margin-bottom: 1.5rem;
+    }
+ 
+    .page-header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #ffffff;
+    }
+ 
+    .page-header p {
+      font-size: 0.85rem;
+      color: #6060a0;
+      margin-top: 4px;
+    }
+ 
+    /* ── Notice banner ── */
+    .notice {
+      background: #1a1a2e;
+      border: 1px solid #2a2a4a;
+      border-left: 3px solid #7c6fff;
+      border-radius: 8px;
+      padding: 0.9rem 1.1rem;
+      font-size: 0.85rem;
+      color: #a0a0c0;
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+ 
+    .notice strong { color: #7c6fff; }
+ 
+    /* ── Stats row ── */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+ 
+    .stat-card {
+      background: #16162a;
+      border: 1px solid #2a2a4a;
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+ 
+    .stat-label {
+      font-size: 0.75rem;
+      color: #6060a0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+ 
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #3a3a5a;
+    }
+ 
+    /* ── Tabs ── */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 1.5rem;
+      background: #16162a;
+      border: 1px solid #2a2a4a;
+      border-radius: 10px;
+      padding: 6px;
+    }
+ 
+    .tab {
+      flex: 1;
+      padding: 8px 12px;
+      border-radius: 6px;
+      border: none;
+      background: transparent;
+      color: #6060a0;
+      font-size: 0.88rem;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s;
+      text-align: center;
+    }
+ 
+    .tab.active {
+      background: #7c6fff;
+      color: #ffffff;
+    }
+ 
+    .tab:hover:not(.active) {
+      background: #1e1e3a;
+      color: #a0a0c0;
+    }
+ 
+    /* ── Controls ── */
+    .controls {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+    }
+ 
+    .search-input {
+      flex: 1;
+      min-width: 200px;
+      padding: 8px 14px;
+      background: #16162a;
+      border: 1px solid #2a2a4a;
+      border-radius: 8px;
+      color: #e0e0f0;
+      font-size: 0.88rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+ 
+    .search-input:focus { border-color: #7c6fff; }
+    .search-input::placeholder { color: #404060; }
+ 
+    .filter-select {
+      padding: 8px 12px;
+      background: #16162a;
+      border: 1px solid #2a2a4a;
+      border-radius: 8px;
+      color: #e0e0f0;
+      font-size: 0.88rem;
+      font-family: inherit;
+      outline: none;
+      cursor: pointer;
+    }
+ 
+    /* ── Table ── */
+    .leaderboard-card {
+      background: #16162a;
+      border: 1px solid #2a2a4a;
+      border-radius: 12px;
+      overflow: hidden;
+    }
+ 
+    .leaderboard-header {
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: 0.8rem 1.2rem;
+      font-size: 0.75rem;
+      color: #6060a0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 1px solid #2a2a4a;
+      background: #0f0f1a;
+    }
+ 
+    .leaderboard-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      padding: 0.9rem 1.2rem;
+      border-bottom: 1px solid #1a1a2e;
+      align-items: center;
+      transition: background 0.15s;
+    }
+ 
+    .leaderboard-row:last-child { border-bottom: none; }
+    .leaderboard-row:hover { background: #1a1a2e; }
+ 
+    /* ── University info ── */
+    .uni-info { display: flex; flex-direction: column; gap: 2px; }
+ 
+    .uni-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+ 
+    .uni-sub {
+      font-size: 0.75rem;
+      color: #6060a0;
+    }
+ 
+    /* ── Empty state bottom ── */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+    }
+ 
+    .empty-icon {
+      font-size: 3rem;
+      opacity: 0.2;
+      margin-bottom: 1rem;
+    }
+ 
+    .empty-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #4a4a6a;
+      margin-bottom: 0.5rem;
+    }
+ 
+    .empty-desc {
+      font-size: 0.85rem;
+      color: #3a3a5a;
+    }
+ 
+    /* ── Sections ── */
+    .section { display: none; }
+    .section.active { display: block; }
+ 
+    .last-updated {
+      text-align: right;
+      font-size: 0.75rem;
+      color: #404060;
+      margin-top: 0.8rem;
+    }
+  </style>
+</head>
+<body>
+ 
+  <nav>
+    <div class="nav-logo">🚩 CTF 2026</div>
+    <div class="nav-links">
+      <a href="#">Challenges</a>
+      <a href="#">Teams</a>
+      <a href="#">Profile</a>
+      <a href="#" style="color:#e24b4b">Logout</a>
+    </div>
+  </nav>
+ 
+  <main>
+ 
+    <div class="page-header">
+      <h1>🏛️ University Directory</h1>
+      <p>Inter-University CTF 2026 — Participating Institutes</p>
+    </div>
+ 
+    <!-- Notice -->
+    <div class="notice">
+      <strong>Competition has not started yet.</strong> Full list of teams will appear here once registration details finalize!
+    </div>
+ 
+    <!-- Stats (all empty) -->
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-label">Universities</div>
+        <div class="stat-value">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total teams</div>
+        <div class="stat-value">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Total players</div>
+        <div class="stat-value">—</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Challenges</div>
+        <div class="stat-value">—</div>
+      </div>
+    </div>
+ 
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" onclick="switchTab('university')">By University</button>
+      <button class="tab" onclick="switchTab('team')">By Team</button>
+    </div>
+ 
+    <!-- University section -->
+    <div class="section active" id="section-university">
+ 
+      <div class="controls">
+        <input type="text" class="search-input" placeholder="Search university..." id="uni-search" oninput="filterUniversities()">
+        <select class="filter-select">
+          <option>All regions</option>
+          <option>Klang Valley</option>
+          <option>Johor</option>
+          <option>Penang</option>
+          <option>Sabah/Sarawak</option>
+        </select>
+      </div>
+ 
+      <div class="leaderboard-card">
+        <div class="leaderboard-header">
+          <span>University</span>
+        </div>
+ 
+        <div id="uni-list">
+          <!-- Fallback empty state for the university directory -->
+          <div class="empty-state">
+            <div class="empty-icon">🏛️</div>
+            <div class="empty-title">No universities registered yet</div>
+            <div class="empty-desc">The registry is empty. Institutions will be displayed here upon registration.</div>
+          </div>
+        </div>
+      </div>
+ 
+    </div>
+ 
+    <!-- Team section -->
+    <div class="section" id="section-team">
+ 
+      <div class="controls">
+        <input type="text" class="search-input" placeholder="Search team...">
+        <select class="filter-select">
+          <option value="">All universities</option>
+          <option value="UTM">UTM</option>
+          <option value="UM">UM</option>
+          <option value="UPM">UPM</option>
+          <option value="UKM">UKM</option>
+          <option value="USM">USM</option>
+          <option value="UiTM">UiTM</option>
+        </select>
+      </div>
+ 
+      <div class="leaderboard-card">
+        <div class="empty-state">
+          <div class="empty-icon">👥</div>
+          <div class="empty-title">No teams yet</div>
+          <div class="empty-desc">Teams will appear here once participants register and form teams!</div>
+        </div>
+      </div>
+ 
+    </div>
+ 
+    <div class="last-updated">Rosters update automatically once registration phases lock</div>
+ 
+  </main>
+ 
+  <script>
+    function switchTab(tab) {
+      document.querySelectorAll('.tab').forEach((t, i) => {
+        t.classList.toggle('active', (i === 0 && tab === 'university') || (i === 1 && tab === 'team'));
+      });
+      document.getElementById('section-university').classList.toggle('active', tab === 'university');
+      document.getElementById('section-team').classList.toggle('active', tab === 'team');
+    }
+ 
+    function filterUniversities() {
+      const query = document.getElementById('uni-search').value.toLowerCase();
+      document.querySelectorAll('#uni-list .leaderboard-row').forEach(row => {
+        const name = row.dataset.name.toLowerCase();
+        row.style.display = name.includes(query) ? '' : 'none';
+      });
+    }
+  </script>
+ 
+</body>
+</html>
