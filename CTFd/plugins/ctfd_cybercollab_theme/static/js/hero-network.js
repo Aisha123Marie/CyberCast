@@ -1,5 +1,5 @@
 /**
- * ctfd_platform_plus - hero network signature
+ * ctfd_cybercollab_theme - hero network signature
  * ---------------------------------------------
  * Ambient node-network animation for the homepage hero only. Represents
  * the platform's core idea (universities as connected nodes) without being
@@ -13,32 +13,19 @@
 (function () {
   function isHomepage() {
     var p = window.location.pathname.replace(/\/+$/, "");
-    return p === "" || p === "/index" || p === "";
+    return p === "" || p === "/index";
   }
 
-  function ensureHeroCanvas() {
-    if (!isHomepage()) return null;
-    if (document.getElementById("cc-network-canvas")) {
-      return document.getElementById("cc-network-canvas");
+  function initNetworkCanvas(attemptsLeft) {
+    if (attemptsLeft === undefined) attemptsLeft = 20; // ~1s total at 50ms/try
+    if (!isHomepage()) return;
+
+    var canvas = document.getElementById("cc-network-canvas");
+    if (!canvas) {
+      if (attemptsLeft <= 0) return; // landing.js likely failed to inject; give up quietly
+      setTimeout(function () { initNetworkCanvas(attemptsLeft - 1); }, 50);
+      return;
     }
-    var main = document.querySelector("main[role='main']");
-    if (!main) return null;
-
-    var hero = document.createElement("div");
-    hero.className = "cc-hero";
-    hero.style.height = "180px";
-
-    var canvas = document.createElement("canvas");
-    canvas.id = "cc-network-canvas";
-    hero.appendChild(canvas);
-
-    main.insertBefore(hero, main.firstChild);
-    return canvas;
-  }
-
-  function initNetworkCanvas() {
-    var canvas = ensureHeroCanvas();
-    if (!canvas) return;
 
     var prefersReducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)"
