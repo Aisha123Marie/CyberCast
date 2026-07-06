@@ -5,10 +5,10 @@ ctfd_learning_paths.routes
 
 import re
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, flash, redirect, render_template, request, url_for
 
-from CTFd.models import db, Challenges, Solves
-from CTFd.utils.decorators import authed_only, admins_only
+from CTFd.models import Challenges, Solves, db
+from CTFd.utils.decorators import admins_only, authed_only
 from CTFd.utils.user import get_current_user
 
 from .models import LearningPaths, LearningPathSteps

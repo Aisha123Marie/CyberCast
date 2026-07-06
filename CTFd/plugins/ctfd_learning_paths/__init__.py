@@ -9,7 +9,11 @@ plugin in this family.
 Install: copy this folder into CTFd/CTFd/plugins/ctfd_learning_paths
 """
 
-from CTFd.plugins import register_plugin_assets_directory, register_admin_plugin_menu_bar, register_plugin_script
+from CTFd.plugins import (
+    register_admin_plugin_menu_bar,
+    register_plugin_assets_directory,
+    register_plugin_script,
+)
 
 from .models import LearningPaths, LearningPathSteps  # noqa: F401
 from .routes import learning_paths_bp

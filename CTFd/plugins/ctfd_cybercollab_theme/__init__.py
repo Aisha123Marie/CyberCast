@@ -9,7 +9,11 @@ plugins (organizations, bounty, team-finder, learning-paths).
 Install: copy this folder into CTFd/CTFd/plugins/ctfd_cybercollab_theme
 """
 
-from CTFd.plugins import register_plugin_assets_directory, register_plugin_script, register_plugin_stylesheet
+from CTFd.plugins import (
+    register_plugin_assets_directory,
+    register_plugin_script,
+    register_plugin_stylesheet,
+)
 
 
 def load(app):

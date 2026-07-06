@@ -4,8 +4,9 @@ ctfd_team_finder.models
 Lightweight "looking for teammates" board.
 """
 
-from CTFd.models import db
 import datetime
+
+from CTFd.models import db
 
 
 class TeamFinderPosts(db.Model):

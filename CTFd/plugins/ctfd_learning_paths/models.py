@@ -6,8 +6,9 @@ Challenges table. Progress is NOT stored here - it's computed live by
 joining against CTFd's own Solves table (see routes.py).
 """
 
-from CTFd.models import db
 import datetime
+
+from CTFd.models import db
 
 
 class LearningPaths(db.Model):

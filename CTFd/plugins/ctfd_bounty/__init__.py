@@ -6,7 +6,11 @@ Enterprise bug bounty board. Fully self-contained.
 Install: copy this folder into CTFd/CTFd/plugins/ctfd_bounty
 """
 
-from CTFd.plugins import register_plugin_assets_directory, register_admin_plugin_menu_bar, register_plugin_script
+from CTFd.plugins import (
+    register_admin_plugin_menu_bar,
+    register_plugin_assets_directory,
+    register_plugin_script,
+)
 
 from .models import BountyPrograms, BountySubmissions  # noqa: F401
 from .routes import bounty_bp

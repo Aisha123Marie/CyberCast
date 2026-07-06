@@ -3,13 +3,13 @@ ctfd_team_finder.routes
 --------------------------
 """
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, abort
+from flask import Blueprint, abort, flash, redirect, render_template, request, url_for
 
 from CTFd.models import db
 from CTFd.utils.decorators import authed_only
 from CTFd.utils.user import get_current_user
 
-from .models import TeamFinderPosts, TeamFinderInterests
+from .models import TeamFinderInterests, TeamFinderPosts
 
 team_finder_bp = Blueprint(
     "team_finder",
