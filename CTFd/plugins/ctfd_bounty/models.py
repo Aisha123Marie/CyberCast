@@ -4,8 +4,9 @@ ctfd_bounty.models
 Enterprise bug bounty board.
 """
 
-from CTFd.models import db
 import datetime
+
+from CTFd.models import db
 
 
 class BountyPrograms(db.Model):

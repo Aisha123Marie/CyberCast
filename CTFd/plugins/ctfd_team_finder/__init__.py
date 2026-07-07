@@ -8,7 +8,7 @@ Install: copy this folder into CTFd/CTFd/plugins/ctfd_team_finder
 
 from CTFd.plugins import register_plugin_assets_directory, register_plugin_script
 
-from .models import TeamFinderPosts, TeamFinderInterests  # noqa: F401
+from .models import TeamFinderInterests, TeamFinderPosts  # noqa: F401
 from .routes import team_finder_bp
 
 

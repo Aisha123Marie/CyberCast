@@ -4,8 +4,9 @@ ctfd_organizations.models
 University / company / community collaboration spaces.
 """
 
-from CTFd.models import db
 import datetime
+
+from CTFd.models import db
 
 
 class Organizations(db.Model):

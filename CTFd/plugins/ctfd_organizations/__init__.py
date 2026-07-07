@@ -10,7 +10,7 @@ plugin in this family (bounty, team-finder, learning-paths, theme).
 
 from CTFd.plugins import register_plugin_assets_directory, register_plugin_script
 
-from .models import Organizations, OrganizationMembers  # noqa: F401
+from .models import OrganizationMembers, Organizations  # noqa: F401
 from .routes import organizations_bp
 
 

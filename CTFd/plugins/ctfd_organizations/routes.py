@@ -5,13 +5,13 @@ ctfd_organizations.routes
 
 import re
 
-from flask import Blueprint, render_template, request, redirect, url_for, flash, jsonify
+from flask import Blueprint, flash, jsonify, redirect, render_template, request, url_for
 
-from CTFd.models import db, Users
-from CTFd.utils.decorators import authed_only, admins_only
+from CTFd.models import Users, db
+from CTFd.utils.decorators import admins_only, authed_only
 from CTFd.utils.user import get_current_user
 
-from .models import Organizations, OrganizationMembers
+from .models import OrganizationMembers, Organizations
 
 organizations_bp = Blueprint(
     "organizations",
